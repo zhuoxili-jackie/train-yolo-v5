@@ -13,7 +13,7 @@ def main():
     TEST_DIR = "../datasets/images/test"
     TEST_LABEL_DIR = "../runs/crowd_yolov5s_detect/labels"
     RESULT_SAVE_DIR = "../image_results/20251016_v1"
-    TRAINED_WEIGHT = "../runs/crowd_yolov5s/weights/best.pt"
+    TRAINED_WEIGHT = "../model/weights/crowd_detector.pt"
 
     R = 80  # radius in pixels for density check
     MinPts = 3  # minimum points for core point
@@ -59,6 +59,9 @@ def main():
     subprocess.run(cmd)
 
     print("\n\033[35m------ Inference completed, starting clustering and visualization ------\033[0m")
+
+    result_save_abs = os.path.abspath(os.path.join(os.path.dirname(__file__), RESULT_SAVE_DIR))
+    os.makedirs(result_save_abs, exist_ok=True)
 
     def label_path_for_image(img_path):
         base = os.path.splitext(os.path.basename(img_path))[0]
@@ -113,9 +116,13 @@ def main():
         # test_image_with_label = image_label_pairs[210]
 
         img_path, _, parsed = test_image_with_label
-        img = cv2.imread(img_path)
+        if parsed is None:
+            print(f"  [skip] no label for {os.path.basename(img_path)}")
+            continue
+
+        img = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), cv2.IMREAD_COLOR)
         if img is None:
-            raise ValueError("Could not load image")
+            raise ValueError(f"Could not load image: {img_path}")
 
         h, w = img.shape[:2]
 
@@ -159,9 +166,10 @@ def main():
                 color = (0, 255, 0)  # green
             cv2.circle(img, (int(cx), int(cy)), 5, color, -1)  # filled
 
-        # Save the result image
-        result_path = os.path.join(RESULT_SAVE_DIR, os.path.basename(img_path))
-        cv2.imwrite(result_path, img)
+        # Save the result image (use imencode+tofile to support non-ASCII paths on Windows)
+        result_path = os.path.join(result_save_abs, os.path.basename(img_path))
+        ext = os.path.splitext(img_path)[1]
+        cv2.imencode(ext, img)[1].tofile(result_path)
         print(f"Saved result to {result_path}")
 
         # Display the image (convert BGR to RGB for matplotlib)

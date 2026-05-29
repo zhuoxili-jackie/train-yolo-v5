@@ -2,11 +2,15 @@
 """Experimental modules."""
 
 import math
+import pathlib
 
 import numpy as np
 import torch
 import torch.nn as nn
 from ultralytics.utils.patches import torch_load
+
+# Fix loading Linux-trained checkpoints on Windows
+pathlib.PosixPath = pathlib.WindowsPath
 
 from utils.downloads import attempt_download
 
