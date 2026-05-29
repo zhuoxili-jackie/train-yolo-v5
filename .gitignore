@@ -1,0 +1,26 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# ===== 数据集缓存 =====
+*.cache
+
+# ===== 训练/检测输出 =====
+runs/
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db
+
+# ===== 说明 =====
+# 大文件（数据集图片、权重 *.pt）默认仍会被跟踪。
+# 若不想把它们纳入 git（避免仓库过大 / 超过 GitHub 100MB 限制），
+# 可取消下面几行的注释：
+# datasets/
+# model/weights/*.pt
+# yolov5/*.pt
