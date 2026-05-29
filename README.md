@@ -18,11 +18,11 @@
 
 可调参数（在 `inference_scripts/predict.py` 顶部）：
 
-| 参数 | 含义 | 默认值 |
-|------|------|--------|
-| `R` | DBSCAN 邻域半径（像素） | 80 |
-| `MinPts` | 成为核心点所需的最少邻居数 | 3 |
-| `ClusterSize_threshold` | 判定为异常簇的最小人数 | 5 |
+| 参数                    | 含义                       | 默认值 |
+| ----------------------- | -------------------------- | ------ |
+| `R`                     | DBSCAN 邻域半径（像素）    | 80     |
+| `MinPts`                | 成为核心点所需的最少邻居数 | 3      |
+| `ClusterSize_threshold` | 判定为异常簇的最小人数     | 5      |
 
 ---
 
@@ -60,6 +60,7 @@ python predict.py
 ```
 
 `predict.py` 会：
+
 1. 调 `yolov5/detect.py` 对 `TEST_DIR` 里的图片做检测，导出标签到 `runs/crowd_yolov5s_detect/labels/`；
 2. 读取检测框中心点，做 DBSCAN 聚类，圈出异常聚集；
 3. 把可视化结果写到 `RESULT_SAVE_DIR`（如 `image_results/20251016_v1/`）。
@@ -96,7 +97,7 @@ train-yolo-v5/
 ## 4. 数据格式
 
 - 配置文件 `data.yaml`：`nc: 1`，`names: ['person']`
-- 标签为标准 YOLO 格式，每行 `class cx cy w h`（坐标已归一化到 0~1）
+- 标签为标准 YOLO 格式，每行 `class cx cy w h`（坐标已经归一化到 0~1）
 - 图片与标签按文件名一一对应（`xxx.jpg` ↔ `xxx.txt`）
 
 ---
