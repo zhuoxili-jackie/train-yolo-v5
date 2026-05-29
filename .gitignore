@@ -24,3 +24,7 @@ Thumbs.db
 # datasets/
 # model/weights/*.pt
 # yolov5/*.pt
+
+
+# ===== Reference =====
+people-count/
