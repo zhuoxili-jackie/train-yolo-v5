@@ -97,7 +97,7 @@ train-yolo-v5/
 ## 4. 数据格式
 
 - 配置文件 `data.yaml`：`nc: 1`，`names: ['person']`
-- 标签为标准 YOLO 格式，每行 `class cx cy w h`（坐标已经归一化到 0~1）
+- 标签为标准 YOLO 格式，每行 `class cx cy w h`（坐标已归一化到 0~1）
 - 图片与标签按文件名一一对应（`xxx.jpg` ↔ `xxx.txt`）
 
 ---
